@@ -2,4 +2,3 @@ en:
   site_settings:
     custom_bbcodes_enable: 'Enable custom BBcode tags'
     custom_bbcodes_list: 'Enabled tags'
-    custom_bbcodes_notices_list: 'Available notice types'

@@ -2,7 +2,6 @@ export function setup(helper) {
   helper.registerOptions((opts, siteSettings) => {
     opts.features["custom-bbcodes"] = !!siteSettings.custom_bbcodes_enable;
     opts.customBBCodes = {
-      noticeTypes: (siteSettings.custom_bbcodes_notices_list || '').split('|'),
       enabledTags: (siteSettings.custom_bbcodes_list || '').split('|')
     };
   });

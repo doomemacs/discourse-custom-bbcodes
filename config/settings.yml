@@ -13,7 +13,3 @@ custom_bbcodes_plugin:
     - kbd
     - notice
     - tabs
-  custom_bbcodes_notices_list:
-    client: true
-    type: list
-    default: 'warning|info|note|idea'
