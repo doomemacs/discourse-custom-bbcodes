@@ -1,23 +1,18 @@
-awesome_bbcodes_plugin:
-  awesome_bbcodes_color_enabled:
-    client: true
+custom_bbcodes_plugin:
+  custom_bbcodes_enable:
     default: true
-  awesome_bbcodes_nsfw_enabled:
     client: true
-    default: true
-  awesome_bbcodes_hide_enabled:
-    client: true
-    default: true
-  awesome_bbcodes_spoiler_enabled:
-    client: true
-    default: true
-  awesome_bbcodes_typefaces_list:
+  custom_bbcodes_list:
     client: true
     type: list
-    default: 'alpha|corporate|humanism|rainbow|smartass'
+    default: 'clear|dump|float|kbd|notice|tabs'
     choices:
-     - alpha
-     - corporate
-     - humanism
-     - rainbow
-     - smartass
+    - clear
+    - dump
+    - float
+    - kbd
+    - notice
+  custom_bbcodes_notices_list:
+    client: true
+    type: list
+    default: 'warning|info|note|idea'

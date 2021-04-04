@@ -1,0 +1,50 @@
+$warning: #ecbe7b;
+
+:root {
+    --tip-bg: #{rgba(mix($secondary, $highlight, 50%), 0.3)};
+    --tip-border: #{rgba(mix($secondary, $highlight, 50%), 0.6)};
+
+    --tip-bg-warning: #{rgba($warning, 0.3)};
+    --tip-border-warning: #{rgba($warning, 0.2)};
+}
+
+
+.notice {
+    background-color: var(--tip-bg);
+    border: none;
+    border-left: 64px solid var(--tip-border);
+    position: relative;
+    min-height: 42px;
+    &:before {
+        float: left;
+        content: "";
+        display: block;
+        margin: 8px 8px 7px 9px;
+        width: 48px;
+        height: 48px;
+        background-repeat: no-repeat;
+        background-size: 40px;
+        background-position: center center;
+        position: absolute;
+        left: -64px;
+        top: 0;
+    }
+
+    &.notice-warning {
+        background-color:  var(--tip-bg-warning);
+        border-left-color: var(--tip-border-warning);
+        &:before { background-image: url(/images/emoji/twitter/warning.png?v=9); }
+    }
+    &.notice-info {
+        // background-color: var(--tip-bg);
+        &:before { background-image: url(/images/emoji/twitter/information_source.png?v=9); }
+    }
+    &.notice-note {
+        // background-color: var(--tip-bg);
+        &:before { background-image: url(/images/emoji/twitter/spiral_notepad.png?v=9); }
+    }
+    &.notice-idea {
+        // background-color: yellow;
+        &:before { background-image: url(/images/emoji/twitter/bulb.png?v=9); }
+    }
+}

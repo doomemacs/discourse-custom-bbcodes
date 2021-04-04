@@ -1,21 +1,11 @@
-# name: discourse-awesome-bbcodes
-# about: BBCode tags with multiline support.
-# version: 1.7.1
-# authors: David Montoya, Charles-Pierre Astolfi
-# url: https://github.com/rux-pizza/discourse-awesome-bbcodes
-
-# Typeface fonts
-register_asset 'stylesheets/typefaces.scss'
-
-# Discourse BBCodes
-register_asset 'stylesheets/discourse.scss'
+# name: discourse-custom-bbcodes
+# about: Custom BBCode tags for Doom Emacs' discourse
+# version: 1.0.0
+# authors: Henrik Lissner
+# url: https://github.com/doomemacs/discourse-custom-bbcodes
 
 # Details Stylesheet
-register_asset 'stylesheets/details.scss'
-
-# Include fonts in asset pipeline
-plugin_path = File.expand_path(File.dirname(__FILE__))
-Rails.configuration.assets.paths << File.join(plugin_path, "assets", "fonts")
-Dir.glob("#{plugin_path}/assets/fonts/*").each do |path|
-  Rails.configuration.assets.precompile << path
-end
+register_asset 'stylesheets/dumps.scss'
+register_asset 'stylesheets/floats.scss'
+register_asset 'stylesheets/notices.scss'
+register_asset 'stylesheets/tabs.scss'

@@ -1,0 +1,99 @@
+// The .tabbed class is added by JS. If JS is disabled, we still need a decent
+// fallback, i.e. only show the first tab.
+.tabs:not(.processed) {
+    counter-reset: tabcounter;
+    > .tab {
+        display: block;
+        counter-increment: tabcounter;
+        &:before {
+            content: "Tab " counter(tabcounter) ": " attr(data-title) " (" attr(data-wrap) ")";
+        }
+    }
+}
+
+.tabs {
+    margin-bottom: 1.25em;
+    > .tab {
+        display: none;
+        border: 1px solid var(--primary-low);
+        padding: 0.4em 0.8em;
+
+        &.selected { display: block; }
+
+        blockquote, code, pre {
+            &:only-child { margin: -5px; }
+        }
+    }
+
+    .tab-line {
+        display: flex;
+        justify-content: baseline;
+        &, li { padding: 0; }
+        li {
+            list-style: none;
+            margin-right: 1px;
+        }
+        a {
+            font-size: $font-down-2;
+            display: block;
+            padding: 0.3em 0.9em;
+            color: var(--primary-medium);
+            border: 1px solid transparent;
+            border-bottom: 0;
+            z-index: 5;
+            margin-bottom: -1px;
+            // Prevent accidental selection of the tab's text
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+            &, &.selected:hover {
+                background-color: var(--header_background);
+            }
+            &.selected {
+                color: var(--primary);
+                font-weight: bold;
+                border: 1px solid var(--primary-low);
+                border-bottom: none;
+                background-color: var(--secondary);
+            }
+            &:hover {
+                background-color: var(--header-bg-alt);
+            }
+        }
+    }
+
+    // > [data-wrap] {
+    //     display: none;
+    //     padding: 0;
+    //     &:before { display: none; }
+    //     &:first-child { display: block; }
+    //     &.selected { display: block; }
+    //     > * {
+    //         margin-left: 1.25em;
+    //         margin-right: 1.25em;
+    //     }
+    //     > h1, > h2, > h3, > h4, > h5, > h6 {
+    //         &:first-child {
+    //             margin-top: 1.25em;
+    //         }
+    //     }
+    //     > blockquote, > pre, > code, > div {
+    //         &:only-child {
+    //             margin: 2px;
+    //             padding: 0;
+    //         }
+    //     }
+    //     > pre.copy-codeblocks:only-child code {
+    //         margin-bottom: 0;
+    //     }
+    //     > .tabbed-inner {
+    //         box-sizing: border-box;
+    //         padding: 0.15em 0 0.35em;
+    //         border: 1px solid var(--primary-low);
+    //     }
+    // }
+}
