@@ -12,6 +12,7 @@ custom_bbcodes_plugin:
     - float
     - kbd
     - notice
+    - tabs
   custom_bbcodes_notices_list:
     client: true
     type: list
