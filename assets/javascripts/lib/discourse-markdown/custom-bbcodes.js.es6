@@ -17,7 +17,9 @@ export function setup(helper) {
     'div[data-tab]',
     'code[data-encoded]',
     'blockquote[class]',
-    'kbd.sequence'
+    'span.keyseq',
+    'span[data-command]',
+    'span[data-alt-key]'
   ]);
 
   helper.registerPlugin(window.markdownitDefList);
@@ -44,10 +46,13 @@ export function setup(helper) {
       md.inline.bbcode.ruler.push('kbd', {
         tag: 'kbd',
         replace: (state, tag, content) => {
-          state.push('span_open', 'span', 1).attrs = [['class', 'keyseq']];
+          let attrs = [['class', 'keyseq']];
+          if (tag.attrs.command)
+            attrs.push(['data-command', tag.attrs.command]);
+          if (tag.attrs.altkey)
+            attrs.push(['data-alt-key', tag.attrs.altkey]);
+          state.push('span_open', 'span', 1).attrs = attrs;
           content.split(' ').forEach(key => {
-            // TODO Create footnotes for special events like
-            //      <leader>/<localleader>
             state.push('kbd_open', 'kbd', 1);
             state.push('text', '', 0).content = key;
             state.push('kbd_close', 'kbd', -1);
