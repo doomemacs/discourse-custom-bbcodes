@@ -16,7 +16,7 @@ function initializeDumps(api) {
                       .addClass('error');
       }
     });
-  }, { id: "discourse-dumps" });
+  }, { id: "discourse-custom-bbcodes-dumps" });
 
   api.addToolbarPopupMenuOptionsCallback(() => {
     return {

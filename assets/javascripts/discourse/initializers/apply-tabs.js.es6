@@ -37,7 +37,7 @@ function initializeTabs(api) {
       tabs.first().addClass('selected');
       node.prepend(tabLine);
     });
-  }, { id: "discourse-tabbed" });
+  }, { id: "discourse-custom-bbcodes-tabbed" });
 
   api.addToolbarPopupMenuOptionsCallback(() => {
     return {
