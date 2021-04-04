@@ -5,14 +5,16 @@ function initializeNotice(api) {
   api.decorateCooked($elem => {
     $elem.find('blockquote.notice').each(function() {
       let notice = $(this);
-      let emoji = notice.children(0).children(0);
+      let emoji = notice.children(0).children('img.emoji').first();
       if (emoji.is('img.emoji')) {
         let type = emoji.attr('title');
-        type = type.substring(1, type.length - 1);
-        notice.removeClass(`only-emoji`);
-        notice.removeClass(`notice-${type}`);
-        notice.addClass(`notice-${type}`);
-        emoji.addClass(`notice-icon`);
+        if (typeof type === 'string') {
+          type = type.replace(/^:|:$/gm, '');
+          notice.removeClass(`notice-${type}`);
+          notice.addClass(`notice-${type}`);
+          emoji.removeClass(`only-emoji`);
+          emoji.addClass(`notice-icon`);
+        }
       }
     });
   }, { id: "discourse-custom-bbcodes-notice" });
