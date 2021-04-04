@@ -31,14 +31,7 @@ export function setup(helper) {
     if (opts.enabledTags.indexOf('notice') > -1) {
       md.block.bbcode.ruler.push('notice', {
         tag: 'notice',
-        wrap: (token, tag) => {
-          let type = tag.attrs._default;
-          if (opts.noticeTypes.indexOf(type) > -1) {
-            token.tag = 'blockquote';
-            token.attrs = [['class', `notice notice-${type}`]];
-            return true;
-          }
-        }
+        wrap: 'blockquote.notice'
       });
     }
 

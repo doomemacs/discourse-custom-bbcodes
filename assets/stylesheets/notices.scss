@@ -14,7 +14,8 @@ $warning: #ecbe7b;
     border: none;
     border-left: 52px solid var(--tip-border);
     position: relative;
-    &:before {
+
+    .notice-icon {
         float: left;
         content: "";
         display: block;
@@ -32,18 +33,14 @@ $warning: #ecbe7b;
     &.notice-warning {
         background-color:  var(--tip-bg-warning);
         border-left-color: var(--tip-border-warning);
-        &:before { background-image: url(/images/emoji/twitter/warning.png?v=9); }
     }
-    &.notice-info {
+    &.notice-information_source {
         // background-color: var(--tip-bg);
-        &:before { background-image: url(/images/emoji/twitter/information_source.png?v=9); }
     }
     &.notice-note {
         // background-color: var(--tip-bg);
-        &:before { background-image: url(/images/emoji/twitter/spiral_notepad.png?v=9); }
     }
-    &.notice-idea {
+    &.notice-pushpin {
         // background-color: yellow;
-        &:before { background-image: url(/images/emoji/twitter/bulb.png?v=9); }
     }
 }
