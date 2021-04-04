@@ -12,6 +12,7 @@ tags are:
 - `[float=left]...[/float]` or `[float=right]...[/float]` --- used to float
   content to the left or right.
 - `[clear][/clear]` --- used to clear floated content.
+- `[kbd command=+ivy/switch-workspace-buffer alt="C-x C-b,SPC b B]SPC b b[/kbd]` --- used to display key sequences with a tooltip showing what command its bound to and what alternative key sequences exist.
 - `[notice=TYPE]...[/notice]` --- creates a notice modal with an emoji icon based on TYPE. Out of the box `warning`, `note`, `idea`, and `info` are supported.
 - `[tabs id=ID title=TITLE]...[/tabs]` --- Tabbed sections of content. Use `[tab=ID]...[/tab]` inside.
 
