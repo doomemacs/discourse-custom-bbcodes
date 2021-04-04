@@ -20,6 +20,9 @@ export function setup(helper) {
     'kbd.sequence'
   ]);
 
+  helper.registerPlugin(window.markdownitDefList);
+  helper.registerPlugin(window.markdownitAbbr);
+
   helper.registerPlugin(md => {
     let opts = helper.getOptions().customBBCodes;
 
