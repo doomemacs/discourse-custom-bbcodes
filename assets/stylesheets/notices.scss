@@ -1,18 +1,7 @@
-$warning: #ecbe7b;
-
-:root {
-    --tip-bg: #{rgba(mix($secondary, $highlight, 50%), 0.3)};
-    --tip-border: #{rgba(mix($secondary, $highlight, 50%), 0.6)};
-
-    --tip-bg-warning: #{rgba($warning, 0.3)};
-    --tip-border-warning: #{rgba($warning, 0.2)};
-}
-
-
 .notice {
-    background-color: var(--tip-bg);
+    background-color: #{rgba($highlight, 0.25)};
     border: none;
-    border-left: 52px solid var(--tip-border);
+    border-left: 52px solid #{rgba($highlight, 0.15)};
     position: relative;
 
     .notice-icon {
@@ -22,25 +11,8 @@ $warning: #ecbe7b;
         margin: 0 6px;
         width: 32px;
         height: 32px;
-        background-repeat: no-repeat;
-        background-size: 32px;
-        background-position: center center;
         position: absolute;
         left: -48px;
         top: calc(50% - 16px);
-    }
-
-    &.notice-warning {
-        background-color:  var(--tip-bg-warning);
-        border-left-color: var(--tip-border-warning);
-    }
-    &.notice-information_source {
-        // background-color: var(--tip-bg);
-    }
-    &.notice-note {
-        // background-color: var(--tip-bg);
-    }
-    &.notice-pushpin {
-        // background-color: yellow;
     }
 }
