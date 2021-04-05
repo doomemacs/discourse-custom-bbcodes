@@ -6,15 +6,25 @@ A Discourse Plugin (built on top of [discourse-awesome-bbcodes]) that adds
 custom BBCode tags for [Doom Emacs' Discourse](//discourse.doomemacs.org). These
 tags are:
 
-- `[dump]...[/dump]` --- Useful for large text dumps that shouldn't be indexed
-  by the search engine. Our github issue tracker had a serious issue with system
-  information polluting the search results.
-- `[float=left]...[/float]` or `[float=right]...[/float]` --- used to float
-  content to the left or right.
-- `[clear][/clear]` --- used to clear floated content.
-- `[kbd command=+ivy/switch-workspace-buffer alt="C-x C-b,SPC b B]SPC b b[/kbd]` --- used to display key sequences with a tooltip showing what command its bound to and what alternative key sequences exist.
-- `[notice=TYPE]...[/notice]` --- creates a notice modal with an emoji icon based on TYPE. Out of the box `warning`, `note`, `idea`, and `info` are supported.
-- `[tabs id=ID title=TITLE]...[/tabs]` --- Tabbed sections of content. Use `[tab=ID]...[/tab]` inside.
+- [X] `[dump]...[/dump]` --- Useful for large text dumps that shouldn't be
+      indexed by the search engine. Our github issue tracker had a serious issue
+      with system information polluting the search results.
+- [X] `[float=left]...[/float]` or `[float=right]...[/float]` --- used to float
+      content to the left or right.
+- [X] `[clear][/clear]` --- used to clear floated content.
+- [X] `[kbd command=+ivy/switch-workspace-buffer alt="C-x C-b,SPC b B]SPC b
+      b[/kbd]` --- syntax sugar for key sequences. Will later be improved to
+      display commands and alternative key sequences on mouseover.
+- [X] `[notice]...[/notice]` --- creates a notice modal (a blockquote). Uses the
+      first emoji in the first element as the notice's icon, and appends a
+      `notice-EMOJINAME` class to the enclosing blockquote.
+- [X] `[tabs id=ID title=TITLE]...[/tabs]` --- Tabbed sections of content. Use
+      `[tab=ID]...[/tab]` inside.
+- [ ] A syntax to indicate Emacs symbols (functions/variables) that are
+      auto-linked to http://doc.endlessparentheses.com/ (?)
+- [ ] A syntax to indicate Doom modules that are auto-linked to its
+      documentation.
+
 
 ## Installation
 
