@@ -52,10 +52,18 @@ export function setup(helper) {
           url: m => `https://docs.doomemacs.org/-/package/#/${m[1]}`,
           text: m => m[1]
         },
-        '^:([a-zA-Z0-9-_]+)(?: ([a-zA-Z0-9-_]+))(?: \+([a-zA-Z0-9-_]+))?$': {
+        '^(?::([\w-]+)(?: ([\w-]+))(?: \+([\w-]+))?|\+([\w-]+))$': {
           class: 'ref-module',
           url: m => {
             const [_, category, module, flag] = m;
+            if (category[0] !== ":") {
+              flag = category;
+              [_, category, module] = window.location.pathname.match(/\/modules\/([^\/]+)\/([^\/]+)\//);
+              if (!(category && module)) {
+                console.err(`Couldn't resolve current module for [[${flag}]] link`);
+                return;
+              }
+            }
             const url = `${category}/${module}` + (flag ? `/#/description/module-flags/${flag}` : "");
             return `https://docs.doomemacs.org/latest/modules/${url}`;
           },
@@ -100,7 +108,9 @@ export function setup(helper) {
                 url:   type.url(m),
                 text:  type.text
               };
-              return true;
+              if (result.url) {
+                return true;
+              }
             }
           });
           if (result) {
