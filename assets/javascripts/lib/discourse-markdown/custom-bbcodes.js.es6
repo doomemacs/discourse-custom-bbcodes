@@ -52,12 +52,12 @@ export function setup(helper) {
           url: m => `https://docs.doomemacs.org/-/package/#/${m[1]}`,
           text: m => m[1]
         },
-        '^(?::([\w-]+)(?: ([\w-]+))(?: \+([\w-]+))?|\+([\w-]+))$': {
+        '^(?:(:[\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))$': {
           class: 'ref-module',
           url: m => {
-            const [_, category, module, flag] = m;
-            if (category[0] !== ":") {
-              flag = category;
+            let [_, category, module, flag, loneflag] = m;
+            if (loneflag) {
+              flag = loneflag;
               [_, category, module] = window.location.pathname.match(/\/modules\/([^\/]+)\/([^\/]+)\//);
               if (!(category && module)) {
                 console.err(`Couldn't resolve current module for [[${flag}]] link`);
