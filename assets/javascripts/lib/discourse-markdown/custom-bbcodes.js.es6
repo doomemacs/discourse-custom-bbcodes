@@ -55,16 +55,16 @@ export function setup(helper) {
         '^(?:(:[\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))$': {
           class: 'ref-module',
           url: m => {
-            let [_, category, module, flag, loneflag] = m;
+            let [_, cat, mod, flag, loneflag] = m;
             if (loneflag) {
               flag = loneflag;
-              [_, category, module] = window.location.pathname.match(/\/modules\/([^\/]+)\/([^\/]+)\//);
-              if (!(category && module)) {
+              [_, cat, mod] = window.location.pathname.match(/\/modules\/([^\/]+)\/([^\/]+)\//);
+              if (!(cat && mod)) {
                 console.err(`Couldn't resolve current module for [[${flag}]] link`);
                 return;
               }
             }
-            const url = `${category}/${module}` + (flag ? `/#/description/module-flags/${flag}` : "");
+            const url = `${cat}/${mod}` + (flag ? `/#/description/module-flags/${flag}` : "");
             return `https://docs.doomemacs.org/latest/modules/${url}`;
           },
           text: m => m[0]
