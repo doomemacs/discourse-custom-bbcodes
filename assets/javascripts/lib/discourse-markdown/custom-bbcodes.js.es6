@@ -50,6 +50,7 @@ export function setup(helper) {
         '^p(?:ackage)?:(.+)$': {
           class: 'ref-package',
           url: m => `https://docs.doomemacs.org/-/package/#/${m[1]}`,
+          text: m => m[1]
         },
         '^:([a-zA-Z0-9-_]+)(?: ([a-zA-Z0-9-_]+))(?: \+([a-zA-Z0-9-_]+))?$': {
           class: 'ref-module',
@@ -58,18 +59,22 @@ export function setup(helper) {
             const url = `${category}/${module}` + (flag ? `/#/description/module-flags/${flag}` : "");
             return `https://docs.doomemacs.org/latest/modules/${url}`;
           },
+          text: m => m[0]
         },
         '^fn:(.+)$': {
           class: 'ref-fn',
           url: m => `https://docs.doomemacs.org/-/function/${m[1]}`,
+          text: m => m[1]
         },
         '^var:(.+)$': {
           class: 'ref-var',
           url: m => `https://docs.doomemacs.org/-/var/${m[1]}`,
+          text: m => m[1]
         },
         '^face:(.+)$': {
           class: 'ref-face',
           url: m => `https://docs.doomemacs.org/-/face/${m[1]}`,
+          text: m => m[1]
         },
         '^(?:(?:([^/ ]+)/)?([^# ]+))?#([0-9]+)$': {
           class: 'ref-issue',
@@ -79,6 +84,7 @@ export function setup(helper) {
             repo = m[2] || repo;
             return `https://github.com/${user}/${repo}/issues/${m[3]}`;
           },
+          text: m => m[0]
         }
       };
       md.core.textPostProcess.ruler.push('references', {
@@ -88,9 +94,11 @@ export function setup(helper) {
           Object.keys(refTypes).find(re => {
             let m = matches[1].match(new RegExp(re));
             if (m) {
+              let type = refTypes[re];
               result = {
-                class: refTypes[re].class,
-                url:   refTypes[re].url(m)
+                class: type.class,
+                url:   type.url(m),
+                text:  type.text
               };
               return true;
             }
@@ -101,7 +109,7 @@ export function setup(helper) {
             buffer.push(token);
 
             token = new state.Token('text', '', 0);
-            token.content = matches[1];
+            token.content = result.text;
             buffer.push(token);
 
             token = new state.Token('link_close', 'a', -1);
