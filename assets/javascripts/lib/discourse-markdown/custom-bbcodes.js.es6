@@ -106,7 +106,7 @@ export function setup(helper) {
               result = {
                 class: type.class,
                 url:   type.url(m),
-                text:  type.text
+                text:  type.text(m)
               };
               if (result.url) {
                 return true;
