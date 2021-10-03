@@ -2,7 +2,9 @@ export function setup(helper) {
   helper.registerOptions((opts, siteSettings) => {
     opts.features["custom-bbcodes"] = !!siteSettings.custom_bbcodes_enable;
     opts.customBBCodes = {
-      enabledTags: (siteSettings.custom_bbcodes_list || '').split('|')
+      enabledTags: (siteSettings.custom_bbcodes_list || '').split('|'),
+      defaultRepo: (siteSettings.custom_bbcodes_default_repo || '').split('/'),
+      referencesEnabled: siteSettings.custom_bbcodes_resolve_references
     };
   });
 
@@ -18,7 +20,15 @@ export function setup(helper) {
     'blockquote[class]',
     'span.keyseq',
     'span[data-command]',
-    'span[data-alt-key]'
+    'span[data-alt-key]',
+    'span[data-ref]',
+    'a[href]',
+    'a.ref-package',
+    'a.ref-module',
+    'a.ref-fn',
+    'a.ref-var',
+    'a.ref-face',
+    'a.ref-issue'
   ]);
 
   helper.registerPlugin(window.markdownitDefList);
@@ -31,6 +41,73 @@ export function setup(helper) {
       md.block.bbcode.ruler.push('notice', {
         tag: 'notice',
         wrap: 'blockquote.notice'
+      });
+    }
+
+    if (opts.referencesEnabled) {
+      // TODO Make these configurable via config/settings.yml
+      const refTypes = {
+        '^p(?:ackage)?:(.+)$': {
+          class: 'ref-package',
+          url: m => `https://docs.doomemacs.org/-/package/#/${m[1]}`,
+        },
+        '^:([a-zA-Z0-9-_]+)(?: ([a-zA-Z0-9-_]+))(?: \+([a-zA-Z0-9-_]+))?$': {
+          class: 'ref-module',
+          url: m => {
+            const [_, category, module, flag] = m;
+            const url = `${category}/${module}` + (flag ? `/#/description/module-flags/${flag}` : "");
+            return `https://docs.doomemacs.org/latest/modules/${url}`;
+          },
+        },
+        '^fn:(.+)$': {
+          class: 'ref-fn',
+          url: m => `https://docs.doomemacs.org/-/function/${m[1]}`,
+        },
+        '^var:(.+)$': {
+          class: 'ref-var',
+          url: m => `https://docs.doomemacs.org/-/var/${m[1]}`,
+        },
+        '^face:(.+)$': {
+          class: 'ref-face',
+          url: m => `https://docs.doomemacs.org/-/face/${m[1]}`,
+        },
+        '^(?:(?:([^/ ]+)/)?([^# ]+))?#([0-9]+)$': {
+          class: 'ref-issue',
+          url: m => {
+            let [user, repo] = opts.defaultRepo;
+            user = m[1] || user;
+            repo = m[2] || repo;
+            return `https://github.com/${user}/${repo}/issues/${m[3]}`;
+          },
+        }
+      };
+      md.core.textPostProcess.ruler.push('references', {
+        matcher: /\[\[([^\]\n]+)\]\]/,
+        onMatch: (buffer, matches, state) => {
+          let result;
+          Object.keys(refTypes).find(re => {
+            let m = matches[1].match(new RegExp(re));
+            if (m) {
+              result = {
+                class: refTypes[re].class,
+                url:   refTypes[re].url(m)
+              };
+              return true;
+            }
+          });
+          if (result) {
+            let token = new state.Token('link_open', 'a', 1);
+            token.attrs = [['class', result.class], ['href', result.url]];
+            buffer.push(token);
+
+            token = new state.Token('text', '', 0);
+            token.content = matches[1];
+            buffer.push(token);
+
+            token = new state.Token('link_close', 'a', -1);
+            buffer.push(token);
+          }
+        }
       });
     }
 

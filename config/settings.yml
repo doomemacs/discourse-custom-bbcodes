@@ -13,3 +13,9 @@ custom_bbcodes_plugin:
     - kbd
     - notice
     - tabs
+  custom_bbcodes_resolve_references:
+    default: true
+    client: true
+  custom_bbcodes_default_repo:
+    default: "hlissner/doom-emacs"
+    client: true

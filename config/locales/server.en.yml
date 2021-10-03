@@ -2,3 +2,5 @@ en:
   site_settings:
     custom_bbcodes_enable: 'Enable custom BBcode tags'
     custom_bbcodes_list: 'Enabled tags'
+    custom_bbcodes_resolve_references: 'Resolve [[references]]'
+    custom_bbcodes_default_repo: 'Default github repo for [[#refs]]'
