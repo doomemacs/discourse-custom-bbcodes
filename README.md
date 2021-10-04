@@ -20,10 +20,13 @@ tags are:
       `notice-EMOJINAME` class to the enclosing blockquote.
 - [X] `[tabs id=ID title=TITLE]...[/tabs]` --- Tabbed sections of content. Use
       `[tab=ID]...[/tab]` inside.
-- [ ] A syntax to indicate Emacs symbols (functions/variables) that are
-      auto-linked to http://doc.endlessparentheses.com/ (?)
-- [ ] A syntax to indicate Doom modules that are auto-linked to its
-      documentation.
+- [X] `[[...]]` syntax for auto-linking:
+  - [X] Github issue references: `[[#123]]`, `[[doom-emacs/#1234]]`, `[[hlissner/doom-emacs#1234]]`
+  - [X] Links to Doom module docs or a particular module flag's docs: `[[:lang]]`, `[[:lang rust]]`, `[[:lang rust +lsp]]`
+  - [ ] Packages: `[[package:evil]]`, `[[p:evil]]`, `[[p:rustic-mode]]`
+  - [ ] Functions/Macros: `[[fn:evil-join]]`, `[[fn:after!]]`, `[[fn:add-hook]]`
+  - [ ] Variables: `[[var:evil-join]]`, `[[var:after!]]`, `[[var:add-hook]]`
+  - [ ] Faces: `[[face:org-level-2]]`, `[[face:font-lock-comment-face]]` 
 
 
 ## Installation
