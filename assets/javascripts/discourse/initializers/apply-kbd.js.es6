@@ -2,6 +2,9 @@ import { withPluginApi } from 'discourse/lib/plugin-api';
 import ComposerController from 'discourse/controllers/composer';
 
 function initializeKbd(api) {
+  const enabledTags = api.container.lookup('site-settings:main').custom_bbcodes_list.split('|');
+  if (!enabledTags.indexOf('kbd') !== -1) { return; }
+
   // TODO Dedicated tooltip?
   // api.decorateCooked(elem => {
   //   $elem.find('.keyseq').hover(function() {

@@ -2,6 +2,9 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import ComposerController from 'discourse/controllers/composer';
 
 function initializeDumps(api) {
+  const enabledTags = api.container.lookup('site-settings:main').custom_bbcodes_list.split('|');
+  if (!enabledTags.indexOf('dump') !== -1) { return; }
+
   api.decorateCooked($elem => {
     // Our github had a problem with 'M-x doom/info' polluting search
     // results. To prevent this, users will paste in their doom/infos
