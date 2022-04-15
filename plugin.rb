@@ -1,6 +1,6 @@
 # name: discourse-custom-bbcodes
 # about: Custom BBCode tags for Doom Emacs' discourse
-# version: 1.0.0
+# version: 1.1.0
 # authors: Henrik Lissner
 # url: https://github.com/doomemacs/discourse-custom-bbcodes
 
