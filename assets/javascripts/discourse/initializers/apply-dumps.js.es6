@@ -3,7 +3,7 @@ import ComposerController from 'discourse/controllers/composer';
 
 function initializeDumps(api) {
   const enabledTags = api.container.lookup('site-settings:main').custom_bbcodes_list.split('|');
-  if (!enabledTags.indexOf('dump') !== -1) { return; }
+  if (enabledTags.indexOf('dump') !== -1) return;
 
   api.decorateCooked($elem => {
     // Our github had a problem with 'M-x doom/info' polluting search

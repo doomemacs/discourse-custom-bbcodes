@@ -3,7 +3,7 @@ import ComposerController from 'discourse/controllers/composer';
 
 function initializeTabs(api) {
   const enabledTags = api.container.lookup('site-settings:main').custom_bbcodes_list.split('|');
-  if (!enabledTags.indexOf('tabs') !== -1) { return; }
+  if (enabledTags.indexOf('tabs') !== -1) return;
 
   api.decorateCooked($elem => {
     // Create tabbed panels out of [tabs]...[/tabs] codes

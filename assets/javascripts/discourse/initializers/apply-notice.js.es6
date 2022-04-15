@@ -3,7 +3,7 @@ import ComposerController from 'discourse/controllers/composer';
 
 function initializeNotice(api) {
   const enabledTags = api.container.lookup('site-settings:main').custom_bbcodes_list.split('|');
-  if (!enabledTags.indexOf('notice') !== -1) { return; }
+  if (enabledTags.indexOf('notice') !== -1) return;
 
   api.decorateCooked($elem => {
     $elem.find('blockquote.notice').each(function() {
