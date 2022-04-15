@@ -31,7 +31,6 @@ export function setup(helper) {
     'a.ref-issue'
   ]);
 
-  helper.registerPlugin(window.markdownitDefList);
   helper.registerPlugin(window.markdownitAbbr);
 
   helper.registerPlugin(md => {
