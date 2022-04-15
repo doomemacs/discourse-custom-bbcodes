@@ -10,5 +10,4 @@ register_asset 'stylesheets/floats.scss'
 register_asset 'stylesheets/notices.scss'
 register_asset 'stylesheets/tabs.scss'
 
-register_asset "javascripts/vendor/markdownItDefList.js", :vendored_pretty_text
 register_asset "javascripts/vendor/markdownItAbbr.js", :vendored_pretty_text
