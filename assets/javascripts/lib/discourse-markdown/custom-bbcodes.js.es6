@@ -54,7 +54,7 @@ export function setup(helper) {
           }
           if (cat) {
             const url = `${cat}/${mod}` + (flag ? `/#/description/module-flags/${flag}` : "");
-            const moduleLabel = cat ? [`:${cat}`, mod, flag].join(' ') : null;
+            const moduleLabel = cat ? [`:${cat}`, mod, flag].join(' ').trim() : null;
             return {
               class: 'ref-module',
               href:  `https://docs.doomemacs.org/latest/modules/${url}${extra || ''}`,
@@ -115,14 +115,14 @@ export function setup(helper) {
             if (m) {
               result = refTypes[re](m);
               result.text = result.text || matches[2];
-              result.title = result.title || matches[3] || text;
+              result.title = result.title || matches[3] || result.text;
               return !!result.href;
             }
           });
           if (result) {
             let token = new state.Token('link_open', 'a', 1);
             token.attrs = [['class', result.class],
-                           ['href',  result.href]
+                           ['href',  result.href],
                            ['title', result.title]];
             buffer.push(token);
 
