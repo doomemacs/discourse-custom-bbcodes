@@ -46,75 +46,84 @@ export function setup(helper) {
     if (opts.referencesEnabled) {
       // TODO Make these configurable via config/settings.yml
       const refTypes = {
-        '^p(?:ackage)?:(.+)$': {
-          class: 'ref-package',
-          url: m => `https://docs.doomemacs.org/-/package/#/${m[1]}`,
-          text: m => m[1]
-        },
-        '^(?:(:[\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))$': {
-          class: 'ref-module',
-          url: m => {
-            let [_, cat, mod, flag, loneflag] = m;
-            if (loneflag) {
-              flag = loneflag;
-              [_, cat, mod] = window.location.pathname.match(/\/modules\/([^\/]+)\/([^\/]+)\//);
-              if (!(cat && mod)) {
-                console.err(`Couldn't resolve current module for [[${flag}]] link`);
-                return;
-              }
-            }
+        '^(?:(:[\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))(?:::(.*))?$': m => {
+          let [_, cat, mod, flag, loneflag, extra] = m;
+          if (loneflag) {
+            flag = loneflag;
+            [_, cat, mod] = window.location.pathname.match(/\/modules\/([^\/]+)(?:\/([^\/]+)\/)?/) || [];
+          }
+          if (cat) {
             const url = `${cat}/${mod}` + (flag ? `/#/description/module-flags/${flag}` : "");
-            return `https://docs.doomemacs.org/latest/modules/${url}`;
-          },
-          text: m => m[0]
+            const moduleLabel = cat ? [`:${cat}`, mod, flag].join(' ') : null;
+            return {
+              class: 'ref-module',
+              href:  `https://docs.doomemacs.org/latest/modules/${url}${extra || ''}`,
+              text:  moduleLabel,
+              title: `Doom module documentation for ${moduleLabel}`
+            };
+          }
+          console.err(`Couldn't resolve current module for [[${flag}]] link`);
+          return {
+            class: 'ref-module',
+            href:  '#',
+            text:  "(couldn't find module)",
+            title: "Couldn't find module"
+          };
         },
-        '^fn:(.+)$': {
+        '^p(?:ackage|kg)?:(.+?)(?:::(.*))?$': m => ({
+          class: 'ref-package',
+          href:  `https://docs.doomemacs.org/-/package/#/${m[1]}${m[2] || ''}`,
+          text:  m[1],
+          title: `Package documentation for ${m[1]}`
+        }),
+        '^fn:(.+?)(?:::(.*))?$': m => ({
           class: 'ref-fn',
-          url: m => `https://docs.doomemacs.org/-/function/${m[1]}`,
-          text: m => m[1]
-        },
-        '^var:(.+)$': {
+          href:  `https://docs.doomemacs.org/-/function/${m[1]}${m[2] || ''}`,
+          text:  m[1],
+          title: `Function documentation for ${m[1]}`
+        }),
+        '^var:(.+?)(?:::(.*))?$': m => ({
           class: 'ref-var',
-          url: m => `https://docs.doomemacs.org/-/var/${m[1]}`,
-          text: m => m[1]
-        },
-        '^face:(.+)$': {
+          href:  `https://docs.doomemacs.org/-/var/${m[1]}${m[2] || ''}`,
+          text:  m[1],
+          title: `Variable documentation for ${m[1]}`
+        }),
+        '^face:(.+?)(?:::(.*))?$': m => ({
           class: 'ref-face',
-          url: m => `https://docs.doomemacs.org/-/face/${m[1]}`,
-          text: m => m[1]
-        },
-        '^(?:(?:([^/ ]+)/)?([^# ]+))?#([0-9]+)$': {
-          class: 'ref-issue',
-          url: m => {
-            let [user, repo] = opts.defaultRepo;
-            user = m[1] || user;
-            repo = m[2] || repo;
-            return `https://github.com/${user}/${repo}/issues/${m[3]}`;
-          },
-          text: m => m[0]
+          href:  `https://docs.doomemacs.org/-/face/${m[1]}${m[2] || ''}`,
+          text:  m[1],
+          title: `Face documentation for ${m[1]}`
+        }),
+        '^(?:(?:([^/ ]+)/)?([^# ]+))?#([0-9]+)([#?].*)?$': m => {
+          let [user, repo] = opts.defaultRepo;
+          user = m[1] || user;
+          repo = m[2] || repo;
+          return {
+            class: 'ref-issue',
+            href:  `https://github.com/${user}/${repo}/issues/${m[3]}${m[4] || ''}`,
+            text:  m[0],
+            title: "Github issue: ${user}/${repo}/#${m[3]}${m[4]}"
+          };
         }
       };
       md.core.textPostProcess.ruler.push('references', {
-        matcher: /\[\[([^\]\n]+)\]\]/,
+        matcher: /\[\[([^\]\n]+)\](?:\[([^\]\n]+)(?: "([^"]+)")\])?\]/,
         onMatch: (buffer, matches, state) => {
           let result;
           Object.keys(refTypes).find(re => {
-            let m = matches[1].match(new RegExp(re));
+            const m = matches[1].match(new RegExp(re));
             if (m) {
-              let type = refTypes[re];
-              result = {
-                class: type.class,
-                url:   type.url(m),
-                text:  type.text(m)
-              };
-              if (result.url) {
-                return true;
-              }
+              result = refTypes[re](m);
+              result.text = result.text || matches[2];
+              result.title = result.title || matches[3] || text;
+              return !!result.href;
             }
           });
           if (result) {
             let token = new state.Token('link_open', 'a', 1);
-            token.attrs = [['class', result.class], ['href', result.url]];
+            token.attrs = [['class', result.class],
+                           ['href',  result.href]
+                           ['title', result.title]];
             buffer.push(token);
 
             token = new state.Token('text', '', 0);
@@ -170,13 +179,11 @@ export function setup(helper) {
       md.block.bbcode.ruler.push('dump', {
         tag: 'dump',
         replace: (state, tag, content) => {
-          state.push('div_open', 'pre', 1)
-               .attrs = [['class', 'dump']];
-          state.push('div_open', 'code', 1)
-               .attrs = [['data-encoded', content]];
+          state.push('div_open', 'div', 1)
+               .attrs = [['class', 'dump']
+                         ['data-encoded', content]];
           state.push('text', '', 0).content = "Loading data dump...";
-          state.push('div_close', 'code', -1);
-          state.push('div_close', 'pre', -1)
+          state.push('div_close', 'div', -1)
           return true;
         }
       });
