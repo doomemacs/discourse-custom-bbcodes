@@ -102,7 +102,7 @@ export function setup(helper) {
             class: 'ref-issue',
             href:  `https://github.com/${user}/${repo}/issues/${m[3]}${m[4] || ''}`,
             text:  m[0],
-            title: "Github issue: ${user}/${repo}/#${m[3]}${m[4]}"
+            title: `Link to Github issue: ${user}/${repo}/#${m[3]}${m[4] || ''}`
           };
         }
       };
