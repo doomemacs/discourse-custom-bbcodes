@@ -46,7 +46,7 @@ export function setup(helper) {
     if (opts.referencesEnabled) {
       // TODO Make these configurable via config/settings.yml
       const refTypes = {
-        '^(?:(:[\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))(?:::(.*))?$': m => {
+        '^(?::([\\w-]+)(?: ([\\w-]+))(?: \\+([\\w-]+))?|\\+([\\w-]+))(?:::(.*))?$': m => {
           let [_, cat, mod, flag, loneflag, extra] = m;
           if (loneflag) {
             flag = loneflag;
