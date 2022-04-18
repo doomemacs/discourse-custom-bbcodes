@@ -179,11 +179,13 @@ export function setup(helper) {
       md.block.bbcode.ruler.push('dump', {
         tag: 'dump',
         replace: (state, tag, content) => {
-          state.push('div_open', 'div', 1)
-               .attrs = [['class', 'dump']
-                         ['data-encoded', content]];
+          state.push('div_open', 'pre', 1)
+               .attrs = [['class', 'dump']];
+          state.push('div_open', 'code', 1)
+               .attrs = [['data-encoded', content]];
           state.push('text', '', 0).content = "Loading data dump...";
-          state.push('div_close', 'div', -1)
+          state.push('div_close', 'code', -1);
+          state.push('div_close', 'pre', -1)
           return true;
         }
       });
