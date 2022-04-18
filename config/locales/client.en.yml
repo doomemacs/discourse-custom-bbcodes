@@ -11,6 +11,8 @@ en:
       title: Insert Tabs
     dump:
       title: Insert Encoded Text Dump
+    kbd:
+      title: Insert Key Sequence
     composer:
       hide_title: Summary
       notice_text: "A notice will be generated from this"
