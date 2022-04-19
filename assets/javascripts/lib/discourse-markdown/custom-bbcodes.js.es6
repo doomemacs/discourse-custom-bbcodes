@@ -54,7 +54,7 @@ export function setup(helper) {
           }
           if (cat) {
             const url = `${cat}/${mod}` + (flag ? `/#/description/module-flags/${flag}` : "");
-            const moduleLabel = cat ? [`:${cat}`, mod, `+${flag}`].join(' ').trim() : null;
+            const moduleLabel = cat ? [`:${cat}`, mod, flag ? `+${flag}` : null].join(' ').trim() : null;
             return {
               class: 'ref-module',
               href:  `https://docs.doomemacs.org/latest/modules/${url}${extra || ''}`,
