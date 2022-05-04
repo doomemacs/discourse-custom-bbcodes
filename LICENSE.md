@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2021 Henrik Lissner
+Copyright (c) 2021-2022 Henrik Lissner
 Copyright (c) 2015-2016 Rux-Pizza (David Montoya, Charles-Pierre Astolfi)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
